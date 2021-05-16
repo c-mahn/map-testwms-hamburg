@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+  <meta charset="utf-8"/>
+
+	<!-- Titel der Website -->
+    <title>WMS-Test Hamburg</title>
+
+    <!-- Definition der nötigen Style-Dateien -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/css/ol.css">
+    <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@3.8.3/src/ol-layerswitcher.css" />
+
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/build/ol.js"></script>
+    <script src="https://unpkg.com/ol-layerswitcher@3.8.3"></script>
+
+	<!-- Definition zusätzlicher eigener Style-Angaben -->
+	<style>
+      #map {
+        height: 85vh;
+        width: 100%;
+      }
+    </style>
+
+  </head>
+
+  <!-- Beginn des HTML-Quelltextes -->
+  <body>
+
+	<!-- Sichtbarer Titel im Kopf der Webseite -->
+    <h1>WMS-Test Hamburg</h1>
+
+	<!-- Definition des div-Elements für die Platzierung der Karte im HTML -->
+	<div id="map" class="map"></div>
+	<div id="mouse-position"></div>
+
+	<!-- Beginn der eigenen Jaavascript-Konfiguration -->
+    <script type="text/javascript">
+
+		// Definition des Kartenausschnitts als Bounding Box
+		var extent = [510000.0, 5850000.0, 625000.4, 6000000.0];
+
+        var mousePositionControl = new ol.control.MousePosition({
+        coordinateFormat: new ol.coordinate.createStringXY(4),
+        projection: 'EPSG:25832',
+        // comment the following two lines to have the mouse position
+        // be placed within the map.
+        className: 'custom-mouse-position',
+        target: document.getElementById('mouse-position'),
+        undefinedHTML: '&nbsp;'
+        });
+
+		// Definition der Projektion EPSG:25832
+        ol.proj.addProjection(new ol.proj.Projection({
+            code: 'EPSG:25832',
+            units: 'm',
+            extent: extent,
+            axisOrientation: 'enu', // default
+            global: false  // default
+        }));
+        var proj25832 = ol.proj.get('EPSG:25832');
+
+	  //Definition der Karte mit den entsprechenden Eigenschaften
+	  var map = new ol.Map({
+
+		// div-Tag-Name in der die Karte dargestellt werden soll
+		target: 'map',
+
+		// Controls auf der Karte
+        controls: ol.control.defaults().extend([
+			new ol.control.ZoomSlider(),
+			new ol.control.FullScreen(),
+			new ol.control.LayerSwitcher(),
+			mousePositionControl
+			]),
+
+
+
+		//	Definition einer Layerliste
+		layers: [
+
+		// Definition des ersten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
+          new ol.layer.Tile({
+			title: "DOP20",
+			source: new ol.source.TileWMS({
+			  url: 'http://geodienste.hamburg.de/HH_WMS_DOP',
+			  type: 'base',
+			  attributions: [
+            			'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
+              ],
+			  params: {
+				'LAYERS': 'DOP',
+				'FORMAT': 'image/png'
+			  }
+			})
+		  }),
+
+		  // Definition des zweiten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
+          new ol.layer.Tile({
+			title: "Geobasiskarten",
+			source: new ol.source.TileWMS({
+			  url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG',
+			  type: 'base',
+			  attributions: [
+            			'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
+              ],
+			  params: {
+				'LAYERS': 'Geobasiskarten_schwarzgrau',
+				'FORMAT': 'image/png'
+			  }
+			}),
+			opacity: 1
+		  }),
+
+      // Definition des dritten Base-Layers (Schriftplatte) als WMS (Tiled=gekachelt)
+          new ol.layer.Tile({
+			title: "Schriftplatte",
+			source: new ol.source.TileWMS({
+			  url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_Schriftplatte',
+			  type: 'base',
+			  attributions: [
+            			'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
+              ],
+			  params: {
+				'LAYERS': 'Geobasiskarten_Schriftplatte',
+				'FORMAT': 'image/png'
+			  }
+			}),
+			visible: false
+		  }),
+
+
+		// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+		  new ol.layer.Tile({
+			title: "Schulen",
+			source: new ol.source.TileWMS({
+			  url: 'https://geodienste.hamburg.de/HH_WMS_Schulen',
+			  params: {
+				'LAYERS': 'hh_schulen_dwh',
+				'FORMAT': 'image/png'
+			  }
+			}),
+			visible: false
+		  }),
+
+
+		  // Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+		  new ol.layer.Tile({
+			title: "Parkhaeuser",
+			source: new ol.source.TileWMS({
+			  url: 'https://geodienste.hamburg.de/HH_WMS_Verkehr_opendata',
+			  params: {
+				'LAYERS': 'parkhaeuser',
+				'FORMAT': 'image/png'
+			  }
+			}),
+			visible: false
+		  })
+
+
+		// Ende der Layerliste
+        ],
+
+
+
+
+		// Definition des Views mit seinen Eigenschaften
+        view: new ol.View({
+          projection: proj25832,
+          center: [565874, 5934140],
+          zoom: 0,
+		  resolutions : [66.14579761460263, 26.458319045841046, 15.874991427504629, 10.583327618336419, 5.2916638091682096, 2.6458319045841048, 1.3229159522920524, 0.6614579761460262, 0.2645831904584105],
+		  maxResolution: "auto"
+        })
+      });
+
+
+
+	  // Erzeuge eine LayerSwitcher Instanz für die Karte
+		//var layerSwitcher = new ol.control.LayerSwitcher();
+		//map.addControl(layerSwitcher);
+
+
+
+    </script>
+  </body>
+</html>
