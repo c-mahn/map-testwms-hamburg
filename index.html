@@ -26,14 +26,14 @@
   </head>
 
   <!-- Beginn des HTML-Quelltextes -->
-  <body>
+  <body style="background-color:rgb(90, 90, 90)">
 
 	<!-- Sichtbarer Titel im Kopf der Webseite -->
-    <h1>Karte zur Energiewende Hamburg</h1>
+    <h1 style="color:rgb(250, 250, 250)">Karte zur Energiewende Hamburg</h1>
 
 	<!-- Definition des div-Elements für die Platzierung der Karte im HTML -->
 	<div id="map" class="map"></div>
-	<div id="mouse-position"></div>
+	<div style="color:rgb(250, 250, 250)" id="mouse-position"></div>
 
 	<!-- Beginn der eigenen Jaavascript-Konfiguration -->
     <script type="text/javascript">
@@ -154,7 +154,7 @@
 						'FORMAT': 'image/png'
 					}
 				}),
-				visible: false
+				visible: true
 			}),
 
 			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
@@ -167,7 +167,7 @@
 						'FORMAT': 'image/png'
 					}
 				}),
-				visible: false
+				visible: true
 			}),
 
 			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
@@ -258,7 +258,7 @@
 						'FORMAT': 'image/png'
 					}
 				}),
-				visible: false
+				visible: true
 			}),
 
 			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
@@ -271,7 +271,7 @@
 						'FORMAT': 'image/png'
 					}
 				}),
-				visible: false
+				visible: true
 			})
 
 		// Ende der Layerliste
