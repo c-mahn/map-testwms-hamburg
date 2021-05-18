@@ -11,6 +11,13 @@ Language: German/Deutsch
 
 # Informationen zu den Layern
 
+Die Layer stammen von verschiedenen Behörden aus Hamburg. Weitere Informationen:
+
+[https://transparenz.hamburg.de/](https://transparenz.hamburg.de/)
+
+[https://geoportal-hamburg.de/geo-online/](https://geoportal-hamburg.de/geo-online/)
+
+
 ## Projekte zur Energiewende
 
 Der Datensatz enthält Informationen zu verschiedenen Projekten verschiedener Akteure der Energiewende in Hamburg, gegliedert nach 3 strategischen Kategorien: Mehr Effizienz - Zukunftsfähige Netze - Ausbau erneuerbarer Energien Weitere Informationen: www.hamburg.de/energiewende
