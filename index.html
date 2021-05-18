@@ -5,7 +5,7 @@
   <meta charset="utf-8"/>
 
 	<!-- Titel der Website -->
-    <title>WMS-Test Hamburg</title>
+    <title>Karte zur Energiewende Hamburg</title>
 
     <!-- Definition der nötigen Style-Dateien -->
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/css/ol.css">
@@ -29,7 +29,7 @@
   <body>
 
 	<!-- Sichtbarer Titel im Kopf der Webseite -->
-    <h1>WMS-Test Hamburg</h1>
+    <h1>Karte zur Energiewende Hamburg</h1>
 
 	<!-- Definition des div-Elements für die Platzierung der Karte im HTML -->
 	<div id="map" class="map"></div>
@@ -80,84 +80,199 @@
 		//	Definition einer Layerliste
 		layers: [
 
-		// Definition des ersten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
-          new ol.layer.Tile({
-			title: "DOP20",
-			source: new ol.source.TileWMS({
-			  url: 'http://geodienste.hamburg.de/HH_WMS_DOP',
-			  type: 'base',
-			  attributions: [
-            			'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
-              ],
-			  params: {
-				'LAYERS': 'DOP',
-				'FORMAT': 'image/png'
-			  }
+			// Definition des zweiten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
+			new ol.layer.Tile({
+				title: "Standard-Hintergrund (Geobasiskarte)",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG',
+					type: 'base',
+					attributions: [
+							'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
+					],
+					params: {
+					'LAYERS': 'Geobasiskarten_schwarzgrau',
+					'FORMAT': 'image/png'
+					}
+				}),
+				opacity: 1
+			}),
+
+			// Definition des ersten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
+			new ol.layer.Tile({
+				title: '"Satelliten-Ansicht" (Luftbildbeflug DOP20)',
+				source: new ol.source.TileWMS({
+					url: 'http://geodienste.hamburg.de/HH_WMS_DOP',
+					type: 'base',
+					attributions: [
+								'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
+					],
+					params: {
+						'LAYERS': 'DOP',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition des dritten Base-Layers (Schriftplatte) als WMS (Tiled=gekachelt)
+			new ol.layer.Tile({
+				title: "Erweiterte Beschriftungen (Schriftplatte)",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_Schriftplatte',
+					type: 'base',
+					attributions: [
+								'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
+					],
+					params: {
+						'LAYERS': 'Geobasiskarten_Schriftplatte',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: true
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Projekte zur Hamburger Energiewende",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Energiewende',
+					params: {
+						'LAYERS': 'energiewende',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "B-Pläne mit energetischen Vorgaben",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_BPlaene_mit_energetischen_Vorgaben',
+					params: {
+						'LAYERS': 'b_plaene_energie',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Quartierssanierungsprojekte",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Quartierssanierungsprojekte',
+					params: {
+						'LAYERS': 'quartierssanierungsprojekte',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Absoluter Nutzwärmebedarf in Wohn- und Nichtwohngebäuden",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Waermebedarf',
+					params: {
+						'LAYERS': 'nw_abs_baubl_saniert',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Absoluter Stromverbrauch (Gebäudecluster)",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Stromverbrauch',
+					params: {
+						'LAYERS': 'stromverbrauch',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Heizstromverbrauch (Gebäudecluster)",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Stromverbrauch',
+					params: {
+						'LAYERS': 'stromverbrauch_gebaeudecluster',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Heizungsart (Zensus 2011)",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Heizungsart_ZENSUS2011',
+					params: {
+						'LAYERS': 'heizungsart_zensus2011',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Hypothetisches Wärmenetz",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Hypothetisches_Waermenetz',
+					params: {
+						'LAYERS': 'hypot_waermenetz_saniert',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Gebiete mit Wärmenetz",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Gebiete_Waermenetz',
+					params: {
+						'LAYERS': 'waermenetzgebiete',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Energieerzeugungsanlagen",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Energieerzeugungsanlagen',
+					params: {
+						'LAYERS': 'energieerzeugungsanlagen',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Windkraftanlagen",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Windkraftanlagen',
+					params: {
+						'LAYERS': 'wka',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
 			})
-		  }),
-
-		  // Definition des zweiten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
-          new ol.layer.Tile({
-			title: "Geobasiskarten",
-			source: new ol.source.TileWMS({
-			  url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_SG',
-			  type: 'base',
-			  attributions: [
-            			'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
-              ],
-			  params: {
-				'LAYERS': 'Geobasiskarten_schwarzgrau',
-				'FORMAT': 'image/png'
-			  }
-			}),
-			opacity: 1
-		  }),
-
-      // Definition des dritten Base-Layers (Schriftplatte) als WMS (Tiled=gekachelt)
-          new ol.layer.Tile({
-			title: "Schriftplatte",
-			source: new ol.source.TileWMS({
-			  url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten_Schriftplatte',
-			  type: 'base',
-			  attributions: [
-            			'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
-              ],
-			  params: {
-				'LAYERS': 'Geobasiskarten_Schriftplatte',
-				'FORMAT': 'image/png'
-			  }
-			}),
-			visible: false
-		  }),
-
-
-		// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
-		  new ol.layer.Tile({
-			title: "Schulen",
-			source: new ol.source.TileWMS({
-			  url: 'https://geodienste.hamburg.de/HH_WMS_Schulen',
-			  params: {
-				'LAYERS': 'hh_schulen_dwh',
-				'FORMAT': 'image/png'
-			  }
-			}),
-			visible: false
-		  }),
-
-
-		  // Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
-		  new ol.layer.Tile({
-			title: "Parkhaeuser",
-			source: new ol.source.TileWMS({
-			  url: 'https://geodienste.hamburg.de/HH_WMS_Verkehr_opendata',
-			  params: {
-				'LAYERS': 'parkhaeuser',
-				'FORMAT': 'image/png'
-			  }
-			}),
-			visible: false
-		  })
-
 
 		// Ende der Layerliste
         ],
