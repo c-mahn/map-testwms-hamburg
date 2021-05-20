@@ -298,7 +298,20 @@
 
 			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
 			new ol.layer.Tile({
-				title: "Hypothetisches Wärmenetz",
+				title: "Hypothetisches Wärmenetz (Gebäude unsaniert)",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Hypothetisches_Waermenetz',
+					params: {
+						'LAYERS': 'hypot_waermenetz_unsaniert',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Hypothetisches Wärmenetz (gebäude saniert)",
 				source: new ol.source.TileWMS({
 					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Hypothetisches_Waermenetz',
 					params: {
