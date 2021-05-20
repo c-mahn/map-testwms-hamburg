@@ -172,11 +172,24 @@
 
 			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
 			new ol.layer.Tile({
-				title: "Absoluter Nutzwärmebedarf in Wohn- und Nichtwohngebäuden",
+				title: "Absoluter Nutzwärmebedarf in Wohn- und Nichtwohngebäuden saniert",
 				source: new ol.source.TileWMS({
 					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Waermebedarf',
 					params: {
 						'LAYERS': 'nw_abs_baubl_saniert',
+						'FORMAT': 'image/png'
+					}
+				}),
+				visible: false
+			}),
+			
+			// Definition eines weiteren ueberlagernden Layers als WMS (Tiled=gekachelt), beim Start ist der deaktiviert (visible=false)
+			new ol.layer.Tile({
+				title: "Absoluter Nutzwärmebedarf in Wohn- und Nichtwohngebäuden unsaniert",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Waermekataster_Waermebedarf',
+					params: {
+						'LAYERS': 'nw_abs_geb_unsaniert',
 						'FORMAT': 'image/png'
 					}
 				}),
