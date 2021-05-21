@@ -154,6 +154,23 @@
 				opacity: 1
 			}),
 
+			// Definition des zweiten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
+			new ol.layer.Tile({
+				title: "OSM-Hintergrund",
+				source: new ol.source.TileWMS({
+					url: 'https://geodienste.hamburg.de/HH_WMS_Geobasiskarten',
+					type: 'base',
+					attributions: [
+							'<a href="http://www.geoinfo.hamburg.de">Landesbetrieb Geoinformation und Vermessung</a>'
+					],
+					params: {
+					'LAYERS': 'Geobasiskarten_farbig',
+					'FORMAT': 'image/png'
+					}
+				}),
+				opacity: 1
+			}),
+
 			// Definition des ersten Base-Layers (Hintergrundkarte) als WMS (Tiled=gekachelt)
 			new ol.layer.Tile({
 				title: '"Satelliten-Ansicht" (Luftbildbeflug DOP20)',
