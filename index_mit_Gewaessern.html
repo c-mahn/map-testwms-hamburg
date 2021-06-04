@@ -393,7 +393,11 @@
 			new ol.layer.Tile({
 				title: "Projekte zur Hamburger Energiewende",
 				source: new ol.source.TileWMS({
-					url: 'http://localhost:8080/deegree-webservices/services/gewaesser_wfs',					
+					url: 'http://localhost:8080/deegree-webservices/services/gewaesser_wms',	
+                    params: {
+						'LAYERS': 'gewaesser',
+						'FORMAT': 'image/png'
+					}				
 				}),
 				visible: false
 			})
